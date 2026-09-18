@@ -1,0 +1,59 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-bg: #0b0b0b;
+  --color-card: #141414;
+  --color-fg: #f3f1ea;
+  --color-muted: #8c8c86;
+  --color-line: rgb(243 241 234 / 0.1);
+  --color-line-strong: rgb(243 241 234 / 0.22);
+  --color-accent: #f3f1ea;
+  --color-ink: #0b0b0b;
+  --color-green: #8fde6e;
+  --color-glass: rgb(11 11 11 / 0.55);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --radius-pill: 999px;
+}
+
+[data-theme='light'] {
+  --color-bg: #f4f1ea;
+  --color-card: #ffffff;
+  --color-fg: #161513;
+  --color-muted: #5f5c55;
+  --color-line: rgb(22 21 19 / 0.1);
+  --color-line-strong: rgb(22 21 19 / 0.22);
+  --color-accent: #161513;
+  --color-ink: #f4f1ea;
+  --color-green: #2f7a1f;
+  --color-glass: rgb(244 241 234 / 0.7);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100%;
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgb(243 241 234 / 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(243 241 234 / 0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse at top, black 20%, transparent 75%);
+}
+
+[data-theme='light'] body::before {
+  background-image:
+    linear-gradient(rgb(22 21 19 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(22 21 19 / 0.045) 1px, transparent 1px);
+}
