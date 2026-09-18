@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowUpRight } from '@/lib/icons';
+import Magnetic from '@/components/fx/Magnetic';
 import { site } from '@/data/site';
-import { btnPrimary, container, section, sectionHeading, sectionLabel, sectionLead } from '@/lib/ui';
+import { btnPrimary, container, displayHeading, section } from '@/lib/ui';
 
 const emptyForm = {
   name: '',
@@ -13,9 +13,9 @@ const emptyForm = {
   details: '',
 };
 
-const fieldClass = 'flex flex-col gap-2 text-[0.82rem] text-muted';
+const fieldClass = 'flex flex-col gap-2 text-[0.78rem] uppercase tracking-[0.12em] text-muted';
 const inputClass =
-  'w-full border-0 border-b border-line-strong bg-transparent py-2.5 text-base text-fg outline-none';
+  'w-full border-0 border-b border-line-strong bg-transparent py-3 text-base tracking-normal text-fg outline-none transition-colors focus:border-fg';
 
 function Contact() {
   const [form, setForm] = useState(emptyForm);
@@ -44,26 +44,19 @@ function Contact() {
 
   return (
     <section id="contact" className={section}>
-      <div className={`${container} grid items-start gap-12 md:grid-cols-[0.9fr_1.1fr]`}>
+      <div className={`${container} grid items-start gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20`}>
         <div>
-          <div className={sectionLabel}>
-            <span className="text-fg">06 /</span> Contact
-          </div>
-          <h2 className={sectionHeading}>{site.contact.heading}</h2>
-          <p className={sectionLead}>{site.contact.body}</p>
-          <a
-            className="mt-7 inline-flex items-center gap-2.5 border-b border-line-strong pb-2 text-[1.05rem]"
-            href={`mailto:${site.email}`}
-          >
-            say hello — {site.email}
-            <ArrowUpRight size={18} />
+          <h2 className={`${displayHeading} mb-8`}>
+            {site.contact.heading[0]}
+            <br />
+            {site.contact.heading[1]}
+          </h2>
+          <a className="inline-flex items-center gap-2 text-[1.05rem] text-muted transition-colors hover:text-fg" href={`mailto:${site.email}`}>
+            say hello - {site.email}
           </a>
         </div>
 
-        <form
-          className="grid grid-cols-1 gap-4 rounded-[28px] border border-line bg-card p-7 md:grid-cols-2"
-          onSubmit={onSubmit}
-        >
+        <form className="grid grid-cols-1 gap-7 md:grid-cols-2" onSubmit={onSubmit}>
           <label className={fieldClass}>
             Name*
             <input className={inputClass} name="name" value={form.name} onChange={onChange} required autoComplete="name" />
@@ -90,13 +83,15 @@ function Contact() {
           </label>
           <label className={`${fieldClass} md:col-span-2`}>
             Project details*
-            <textarea className={`${inputClass} resize-y`} name="details" rows="5" value={form.details} onChange={onChange} required />
+            <textarea className={`${inputClass} min-h-24 resize-y`} name="details" rows="4" value={form.details} onChange={onChange} required />
           </label>
-          <button className={`${btnPrimary} md:col-span-2`} type="submit">
-            Send message
-          </button>
+          <Magnetic className="md:col-span-2">
+            <button className={btnPrimary} type="submit">
+              Submit Message
+            </button>
+          </Magnetic>
           {sent && (
-            <p className="text-[0.9rem] text-muted md:col-span-2">
+            <p className="text-[0.9rem] normal-case tracking-normal text-muted md:col-span-2">
               Your email client should open with the message ready. If it doesn’t, write to {site.email}.
             </p>
           )}

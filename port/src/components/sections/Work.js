@@ -1,65 +1,52 @@
-import { ArrowUpRight } from '@/lib/icons';
+'use client';
+
+import Rail from '@/components/fx/Rail';
+import Reveal from '@/components/fx/Reveal';
 import { site } from '@/data/site';
-import { btnSecondary, container, section, sectionHead, sectionHeading, sectionLabel, sectionLead, tag } from '@/lib/ui';
+import { tag } from '@/lib/ui';
 
 function Work() {
   return (
-    <section id="work" className={section}>
-      <div className={container}>
-        <div className={sectionHead}>
-          <div>
-            <div className={sectionLabel}>
-              <span className="text-fg">01 /</span> Work
-            </div>
-            <h2 className={sectionHeading}>Selected work</h2>
-            <p className={sectionLead}>
-              Real builds — commerce, realtime, and the kind of product work clients actually hire for.
-            </p>
-          </div>
-          <a className={btnSecondary} href="https://github.com/SANDY655" target="_blank" rel="noreferrer">
-            Browse GitHub
-          </a>
+    <section id="work" className="relative z-[1] scroll-mt-[104px] py-[clamp(3rem,8vw,6rem)]">
+      <div className="marquee mb-12">
+        <div className="marquee-track font-medium text-[clamp(3.4rem,9vw,8rem)] leading-none tracking-[-0.05em]">
+          <span className="px-8">Selected Work — Selected Work — Selected Work — </span>
+          <span className="px-8">Selected Work — Selected Work — Selected Work — </span>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-          {site.featuredProjects.map((project) => (
-            <a
-              key={project.title}
-              className="flex flex-col rounded-[28px] border border-line bg-card p-6 hover:border-line-strong"
-              href={project.href}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div className="mb-2.5 flex justify-between text-[0.82rem] text-muted">
-                <p>{project.category}</p>
-                <ArrowUpRight size={18} />
-              </div>
-              <h3 className="mb-2.5 font-display text-[1.8rem] font-bold tracking-[-0.04em]">{project.title}</h3>
-              <p className="text-muted">{project.problem}</p>
-              <div className="mt-[18px] flex flex-wrap gap-2">
-                {project.stack.map((item) => (
-                  <span className={tag} key={item}>{item}</span>
-                ))}
-              </div>
-            </a>
-          ))}
-        </div>
-
-        <div className="mt-5 border-t border-line">
-          {site.moreProjects.map((project) => (
-            <a
-              key={project.title}
-              href={project.href}
-              target="_blank"
-              rel="noreferrer"
-              className="grid grid-cols-[1fr_auto] items-center gap-4 border-b border-line py-[22px] text-fg md:grid-cols-[1.4fr_1fr_auto]"
-            >
-              <span className="hover:underline hover:underline-offset-4">{project.title}</span>
-              <em className="hidden font-normal not-italic text-muted md:block">{project.category}</em>
-              <ArrowUpRight size={16} />
-            </a>
-          ))}
-        </div>
+      <div className="pl-4 sm:pl-7">
+        <Reveal>
+          <Rail>
+            {site.projects.map((project, index) => (
+              <a
+                key={project.title}
+                href={project.href}
+                target="_blank"
+                rel="noreferrer"
+                data-cursor="view"
+                className="spot-card flex w-[min(86vw,28.5rem)] shrink-0 snap-start flex-col overflow-hidden"
+              >
+                <div className="mb-5 overflow-hidden rounded-[1.5rem]">
+                  <div className="work-visual min-h-[19rem]" style={{ '--tone': `${18 + index * 8}%` }} />
+                </div>
+                <h3 className="brand-mark mb-3 text-[32px] leading-none font-medium tracking-[-0.04em]">
+                  {project.title}
+                  <span>_</span>
+                </h3>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className={tag}>Industry</span>
+                  <span className={tag}>{project.industry}</span>
+                  <span className={tag}>Services</span>
+                  {project.services.map((item) => (
+                    <span className={tag} key={item}>{item}</span>
+                  ))}
+                  <span className={tag}>{project.year}</span>
+                </div>
+              </a>
+            ))}
+          </Rail>
+        </Reveal>
       </div>
     </section>
   );
