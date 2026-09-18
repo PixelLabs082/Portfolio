@@ -68,3 +68,35 @@ export function X({ size = 18 }) {
     </Icon>
   );
 }
+
+export function ChevronLeft({ size = 18 }) {
+  return (
+    <Icon size={size}>
+      <path d="m15 18-6-6 6-6" />
+    </Icon>
+  );
+}
+
+export function ChevronRight({ size = 18 }) {
+  return (
+    <Icon size={size}>
+      <path d="m9 18 6-6-6-6" />
+    </Icon>
+  );
+}
+
+export function ChevronUp({ size = 18 }) {
+  return (
+    <Icon size={size}>
+      <path d="m18 15-6-6-6 6" />
+    </Icon>
+  );
+}
+
+export function ChevronDown({ size = 18 }) {
+  return (
+    <Icon size={size}>
+      <path d="m6 9 6 6 6-6" />
+    </Icon>
+  );
+}

@@ -1,61 +1,53 @@
+import Count from '@/components/fx/Count';
+import Reveal from '@/components/fx/Reveal';
 import { site } from '@/data/site';
-import { btnSecondary, container, section, sectionHeading, sectionLabel } from '@/lib/ui';
+import { btnSecondary, container, displayHeading, section } from '@/lib/ui';
 
 function About() {
   return (
     <section id="about" className={section}>
-      <div className={container}>
-        <div className={sectionLabel}>
-          <span className="text-fg">04 /</span> About
-        </div>
-        <div className="mb-14 grid gap-12 md:grid-cols-[1.1fr_0.9fr]">
-          <h2 className={sectionHeading}>{site.about.heading}</h2>
-          <div>
-            {site.about.body.map((paragraph) => (
-              <p key={paragraph} className="mb-4 text-muted">{paragraph}</p>
-            ))}
-            <a className={`${btnSecondary} mt-2`} href={site.resume} download>
-              Download resume
-            </a>
-          </div>
-        </div>
+      <div className={`${container} mb-16 grid items-start gap-10 md:grid-cols-[0.9fr_1.1fr] md:gap-20`}>
+        <Reveal>
+          <h2 className={`${displayHeading} mb-0`}>{site.about.heading}</h2>
+        </Reveal>
+        <Reveal delay={80}>
+          <p className="max-w-[46ch] text-[18px] leading-7 text-muted">{site.about.body}</p>
+          <a className={`${btnSecondary} mt-8`} href={site.resume} download>
+            download resume
+          </a>
+        </Reveal>
+      </div>
 
-        <div className="mb-14 grid grid-cols-1 gap-4 md:grid-cols-3">
-          {site.stats.map((stat) => (
-            <article key={stat.label} className="rounded-3xl border border-line bg-card p-7">
-              <strong className="mb-2 block font-display text-5xl">{stat.value}</strong>
-              <p className="font-semibold">{stat.label}</p>
-            </article>
-          ))}
-        </div>
+      <div className={`${container} mb-16`}>
+        <h3 className="mb-2 text-[24px] font-medium tracking-[-0.04em]">Work Experience</h3>
+        {site.experience.map((job) => (
+          <article
+            key={job.role}
+            className="grid items-baseline gap-3 border-t border-line py-6 last:border-b md:grid-cols-[1fr_auto]"
+          >
+            <h4 className="text-[22px] font-medium tracking-[-0.03em]">{job.role}</h4>
+            <p className="text-[0.92rem] text-muted">{job.period}</p>
+          </article>
+        ))}
+      </div>
 
-        <div>
-          <h3 className="mb-2 font-display text-[1.4rem] font-bold tracking-[-0.04em]">Work so far</h3>
-          {site.experience.map((job) => (
-            <article
-              key={job.company}
-              className="grid gap-5 border-t border-line py-7 last:border-b md:grid-cols-[220px_1fr]"
-            >
-              <p className="text-muted">{job.period}</p>
-              <div>
-                <h4 className="mb-1.5 font-display text-[1.3rem] font-bold tracking-[-0.04em]">{job.role}</h4>
-                <p className="text-muted">{job.company} · {job.location}</p>
-                <p className="text-muted">{job.description}</p>
-              </div>
-            </article>
-          ))}
+      <div className="marquee mb-16">
+        <div className="marquee-track text-[clamp(2.4rem,6vw,5rem)] leading-none font-medium tracking-[-0.04em] text-muted">
+          <span className="px-8">{site.ticker}</span>
+          <span className="px-8">{site.ticker}</span>
         </div>
+      </div>
 
-        <div className="mt-10 flex flex-wrap gap-2.5">
-          {site.skills.map((skill) => (
-            <span
-              key={skill}
-              className="inline-flex rounded-full border border-line bg-card px-3 py-2 text-[0.85rem] text-muted"
-            >
-              {skill}
-            </span>
-          ))}
-        </div>
+      <div className={`${container} grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8`}>
+        {site.stats.map((stat) => (
+          <article key={stat.kicker}>
+            <p className="mb-6 text-[0.86rem] text-muted">{'//'} {stat.kicker}</p>
+            <strong className="mb-4 block font-display text-[clamp(4rem,8vw,6.5rem)] leading-none tracking-[-0.07em]">
+              <Count value={stat.value} />
+            </strong>
+            <p className="max-w-[18ch] text-muted">{stat.label}</p>
+          </article>
+        ))}
       </div>
     </section>
   );

@@ -1,36 +1,35 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-bg: #0b0b0b;
-  --color-card: #141414;
-  --color-fg: #f3f1ea;
-  --color-muted: #8c8c86;
-  --color-line: rgb(243 241 234 / 0.1);
-  --color-line-strong: rgb(243 241 234 / 0.22);
-  --color-accent: #f3f1ea;
-  --color-ink: #0b0b0b;
-  --color-green: #8fde6e;
-  --color-glass: rgb(11 11 11 / 0.55);
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
-  --radius-pill: 999px;
+  --color-bg: #000000;
+  --color-card: #0e0e0e;
+  --color-fg: #ffffff;
+  --color-muted: rgb(255 255 255 / 0.64);
+  --color-line: rgb(255 255 255 / 0.16);
+  --color-line-strong: rgb(255 255 255 / 0.32);
+  --color-accent: #ffffff;
+  --color-ink: #000000;
+  --color-green: #07c42c;
+  --color-glass: rgb(0 0 0 / 0.55);
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
 }
 
 [data-theme='light'] {
-  --color-bg: #f4f1ea;
-  --color-card: #ffffff;
-  --color-fg: #161513;
-  --color-muted: #5f5c55;
-  --color-line: rgb(22 21 19 / 0.1);
-  --color-line-strong: rgb(22 21 19 / 0.22);
-  --color-accent: #161513;
-  --color-ink: #f4f1ea;
-  --color-green: #2f7a1f;
-  --color-glass: rgb(244 241 234 / 0.7);
+  --color-bg: #ffffff;
+  --color-card: #f4f4f4;
+  --color-fg: #000000;
+  --color-muted: rgb(0 0 0 / 0.56);
+  --color-line: rgb(0 0 0 / 0.16);
+  --color-line-strong: rgb(0 0 0 / 0.32);
+  --color-accent: #000000;
+  --color-ink: #ffffff;
+  --color-green: #07c42c;
+  --color-glass: rgb(255 255 255 / 0.7);
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
@@ -39,21 +38,295 @@ body {
   color: var(--color-fg);
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image:
-    linear-gradient(rgb(243 241 234 / 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(243 241 234 / 0.035) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: radial-gradient(ellipse at top, black 20%, transparent 75%);
+html[data-cursor='on'],
+html[data-cursor='on'] * {
+  cursor: none !important;
 }
 
-[data-theme='light'] body::before {
-  background-image:
-    linear-gradient(rgb(22 21 19 / 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(22 21 19 / 0.045) 1px, transparent 1px);
+html[data-cursor='on'] input,
+html[data-cursor='on'] textarea,
+html[data-cursor='on'] select,
+html[data-cursor='on'] option {
+  cursor: text !important;
+}
+
+option {
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+.site-cursor {
+  display: none;
+}
+
+html[data-cursor='on'] .site-cursor {
+  display: grid;
+  place-items: center;
+}
+
+.scene-canvas {
+  mask-image: radial-gradient(ellipse 78% 86% at 72% 44%, #000 22%, transparent 78%);
+}
+
+.scene-fallback {
+  background:
+    radial-gradient(ellipse 60% 70% at 74% 42%, rgb(255 255 255 / 0.14), transparent 58%),
+    radial-gradient(ellipse 40% 40% at 80% 70%, rgb(7 196 44 / 0.12), transparent 60%),
+    var(--color-bg);
+  animation: drift 18s ease-in-out infinite alternate;
+}
+
+[data-theme='light'] .scene-fallback {
+  background:
+    radial-gradient(ellipse 60% 70% at 74% 42%, rgb(0 0 0 / 0.08), transparent 58%),
+    var(--color-bg);
+}
+
+.grain {
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.service-hscroll {
+  padding: 5.5rem 1.25rem 1.25rem;
+  background: var(--color-bg);
+}
+
+@media (min-width: 640px) {
+  .service-hscroll {
+    padding: 5.75rem 2rem 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .service-hscroll {
+    padding: 5.75rem 2.5rem 1.5rem;
+  }
+}
+
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.rail-btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-line);
+  border-radius: 50px;
+  color: var(--color-fg);
+  background: transparent;
+  transition: border-color 0.35s, transform 0.35s;
+}
+
+.rail-btn:hover {
+  border-color: var(--color-fg);
+  transform: translateY(-2px);
+}
+
+.rail-btn:disabled {
+  opacity: 0.28;
+  pointer-events: none;
+  transform: none;
+}
+
+.marquee {
+  overflow: hidden;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+
+.spot-card img {
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spot-card:hover img {
+  transform: scale(1.06);
+}
+
+.stack-card {
+  position: sticky;
+  top: 0;
+  display: flex;
+  width: 100%;
+  height: 100svh;
+  min-height: 100svh;
+  padding-right: 1.25rem;
+  padding-left: 1.25rem;
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .stack-card {
+    padding-right: 2rem;
+    padding-left: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .stack-card {
+    padding-right: 2.5rem;
+    padding-left: 2.5rem;
+  }
+}
+
+.work-visual {
+  background:
+    radial-gradient(90% 70% at 18% 12%, rgb(255 255 255 / 0.12), transparent 58%),
+    radial-gradient(70% 80% at 88% 82%, rgb(7 196 44 / 0.1), transparent 55%),
+    linear-gradient(165deg, #161616, #0a0a0a);
+}
+
+[data-theme='light'] .work-visual {
+  background:
+    radial-gradient(90% 70% at 18% 12%, rgb(0 0 0 / 0.08), transparent 58%),
+    linear-gradient(165deg, #fff, #ececec);
+}
+
+.pulse-dot {
+  box-shadow: 0 0 0 6px rgb(7 196 44 / 0.16);
+  animation: pulse-dot 2.2s ease-in-out infinite;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-mark {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.faq-mark::before,
+.faq-mark::after {
+  content: '';
+  position: absolute;
+  inset: 6px 0 auto;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.faq-mark::after {
+  transform: rotate(90deg);
+}
+
+.faq-item[open] .faq-mark::after {
+  transform: rotate(0deg);
+}
+
+.brand-mark span {
+  color: var(--color-green);
+}
+
+.menu-gradient {
+  background:
+    radial-gradient(110% 70% at 8% 12%, rgb(7 196 44 / 0.42), transparent 46%),
+    radial-gradient(90% 60% at 92% 88%, rgb(7 196 44 / 0.22), transparent 50%),
+    linear-gradient(165deg, #000 0%, #04150a 42%, #000 100%);
+  background-size: 160% 160%;
+  animation: menu-shift 18s ease-in-out infinite alternate;
+}
+
+[data-theme='light'] .menu-gradient {
+  background:
+    radial-gradient(110% 70% at 8% 12%, rgb(7 196 44 / 0.28), transparent 46%),
+    radial-gradient(90% 60% at 92% 88%, rgb(7 196 44 / 0.16), transparent 50%),
+    linear-gradient(165deg, #fff 0%, #e7f6ea 42%, #fff 100%);
+  background-size: 160% 160%;
+}
+
+.menu-nav:hover .menu-link {
+  opacity: 0.28;
+}
+
+.menu-nav .menu-link:hover {
+  opacity: 1;
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes pulse-dot {
+  50% {
+    box-shadow: 0 0 0 10px rgb(7 196 44 / 0);
+  }
+}
+
+@keyframes stack-cover {
+  to {
+    transform: scale(0.92);
+    filter: brightness(0.72);
+  }
+}
+
+@keyframes menu-shift {
+  from {
+    background-position: 0% 20%;
+  }
+  to {
+    background-position: 80% 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .marquee-track,
+  .scene-fallback,
+  .pulse-dot,
+  .spot-card img,
+  .stack-card,
+  .menu-gradient {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
 }
