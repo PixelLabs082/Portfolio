@@ -1,3 +1,4 @@
+import { SocialLink } from '@/components/ui/SocialLinks';
 import { site } from '@/data/site';
 import { container } from '@/lib/ui';
 
@@ -22,17 +23,16 @@ function Footer() {
         </div>
         <div>
           <p className="mb-4 text-[0.72rem] uppercase tracking-[0.16em] text-fg">Socials</p>
-          {site.socials.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              target={link.href.startsWith('mailto:') ? undefined : '_blank'}
-              rel="noreferrer"
-              className="mb-2 block text-muted transition-colors hover:text-fg"
-            >
-              {link.name}
-            </a>
-          ))}
+          <div className="flex flex-col items-start gap-2.5">
+            {site.socials.map((link) => (
+              <SocialLink
+                key={link.name}
+                name={link.name}
+                href={link.href}
+                className="text-muted hover:text-fg"
+              />
+            ))}
+          </div>
         </div>
         <div className="col-span-2 md:col-span-1 md:text-right">
           <p className="mb-3 text-muted">© {site.name.split(' ')[0]}'s personal portfolio</p>
