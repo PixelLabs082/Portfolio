@@ -7,6 +7,7 @@ import { btnPrimary, iconBtn } from '@/lib/ui';
 
 function Header() {
   const [theme, setTheme] = useState('dark');
+  const [themeReady, setThemeReady] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -15,6 +16,7 @@ function Header() {
       setTheme(saved);
       document.documentElement.setAttribute('data-theme', saved);
     }
+    setThemeReady(true);
   }, []);
 
   useEffect(() => {
@@ -59,9 +61,9 @@ function Header() {
             document.documentElement.setAttribute('data-theme', next);
             window.localStorage.setItem('theme', next);
           }}
-          aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+          aria-label={!themeReady || theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
         >
-          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+          {!themeReady || theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
         </button>
         <a className={`${btnPrimary} hidden min-h-11 lg:inline-flex`} href="#contact">
           Start a project
