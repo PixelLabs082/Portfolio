@@ -1,3 +1,5 @@
+import { useId } from 'react';
+
 function LogoFrame({ size, background, children }) {
   return (
     <span
@@ -46,6 +48,71 @@ function LeetCodeLogo({ size }) {
   );
 }
 
+function InstagramLogo({ size }) {
+  const fill = useId();
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className="shrink-0 overflow-hidden rounded-[5px]"
+    >
+      <defs>
+        <radialGradient id={fill} cx="30%" cy="107%" r="150%">
+          <stop offset="0%" stopColor="#FDF497" />
+          <stop offset="10%" stopColor="#FDF497" />
+          <stop offset="45%" stopColor="#FD5949" />
+          <stop offset="60%" stopColor="#D6249F" />
+          <stop offset="90%" stopColor="#285AEB" />
+        </radialGradient>
+      </defs>
+      <rect width="24" height="24" rx="6" fill={`url(#${fill})`} />
+      <rect
+        x="5.2"
+        y="5.2"
+        width="13.6"
+        height="13.6"
+        rx="4"
+        fill="none"
+        stroke="#fff"
+        strokeWidth="1.7"
+      />
+      <circle cx="12" cy="12" r="3.35" fill="none" stroke="#fff" strokeWidth="1.7" />
+      <circle cx="16.35" cy="7.65" r="0.95" fill="#fff" />
+    </svg>
+  );
+}
+
+function WhatsAppLogo({ size }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" className="shrink-0 overflow-hidden rounded-[5px]">
+      <path
+        fill="#25D366"
+        d="M12 0C5.373 0 0 5.373 0 12c0 2.123.555 4.116 1.528 5.85L.057 23.325a.6.6 0 0 0 .737.737l5.475-1.47A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0"
+      />
+      <path
+        fill="#fff"
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"
+      />
+    </svg>
+  );
+}
+
+function PhoneLogo({ size }) {
+  return (
+    <LogoFrame size={size} background="#111111">
+      <svg width={size - 5} height={size - 5} viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          fill="#ffffff"
+          d="M6.62 10.79a15.15 15.15 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.4 21 3 13.6 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.25 1.02z"
+        />
+      </svg>
+    </LogoFrame>
+  );
+}
+
 function GmailLogo({ size }) {
   return (
     <LogoFrame size={size} background="#ffffff">
@@ -63,6 +130,9 @@ function GmailLogo({ size }) {
 const logos = {
   GitHub: GitHubLogo,
   LinkedIn: LinkedInLogo,
+  Instagram: InstagramLogo,
+  WhatsApp: WhatsAppLogo,
+  Phone: PhoneLogo,
   LeetCode: LeetCodeLogo,
   Email: GmailLogo,
 };
@@ -74,7 +144,8 @@ export function SocialLogo({ name, size = 18 }) {
 }
 
 export function SocialLink({ name, href, onClick, className = '', size = 18 }) {
-  const external = !href.startsWith('mailto:');
+  const local = href.startsWith('mailto:') || href.startsWith('tel:');
+  const external = !local;
 
   return (
     <a

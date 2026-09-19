@@ -7,7 +7,13 @@ export default function Magnetic({ children, className = '', strength = 7 }) {
 
   const onMove = (event) => {
     const node = ref.current;
-    if (!node || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (
+      !node ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      window.matchMedia('(pointer: coarse)').matches
+    ) {
+      return;
+    }
     const box = node.getBoundingClientRect();
     const x = (event.clientX - (box.left + box.width / 2)) / strength;
     const y = (event.clientY - (box.top + box.height / 2)) / strength;
