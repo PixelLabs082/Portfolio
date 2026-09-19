@@ -4,7 +4,6 @@ import Case from '@/components/sections/Case';
 import Work from '@/components/sections/Work';
 import Services from '@/components/sections/Services';
 import Process from '@/components/sections/Process';
-import FAQ from '@/components/sections/FAQ';
 import Contact from '@/components/sections/Contact';
 
 export default function Page() {
@@ -16,7 +15,6 @@ export default function Page() {
       <Work />
       <Services />
       <Process />
-      <FAQ />
       <Contact />
     </main>
   );

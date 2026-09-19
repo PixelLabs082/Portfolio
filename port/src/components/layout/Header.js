@@ -47,7 +47,7 @@ function Header() {
           <a
             href="#home"
             onClick={closeMenu}
-            className="pointer-events-auto relative z-4 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-green text-[1.05rem] font-semibold tracking-tight text-black sm:h-10 sm:w-10"
+            className="pointer-events-auto relative z-4 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-[1.05rem] font-semibold tracking-tight text-black sm:h-10 sm:w-10"
             aria-label="Home"
           >
             S
@@ -70,7 +70,7 @@ function Header() {
           {!menuOpen ? (
             <>
               <a
-                className="hidden text-[11px] font-medium uppercase tracking-[0.12em] text-muted transition-colors duration-300 hover:text-fg xl:inline"
+                className="hidden text-[11px] font-medium lowercase tracking-[0.12em] text-muted transition-colors duration-300 hover:text-fg xl:inline"
                 href={`mailto:${site.email}`}
               >
                 {site.email}

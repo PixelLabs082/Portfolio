@@ -100,3 +100,44 @@ export function ChevronDown({ size = 18 }) {
     </Icon>
   );
 }
+
+export function LayoutGrid({ size = 16 }) {
+  return (
+    <Icon size={size}>
+      <rect width="7" height="7" x="3" y="3" rx="1" />
+      <rect width="7" height="7" x="14" y="3" rx="1" />
+      <rect width="7" height="7" x="14" y="14" rx="1" />
+      <rect width="7" height="7" x="3" y="14" rx="1" />
+    </Icon>
+  );
+}
+
+export function LayoutList({ size = 16 }) {
+  return (
+    <Icon size={size}>
+      <path d="M3 12h18" />
+      <path d="M3 6h18" />
+      <path d="M3 18h18" />
+    </Icon>
+  );
+}
+
+export function ExternalLink({ size = 16 }) {
+  return (
+    <Icon size={size}>
+      <path d="M15 3h6v6" />
+      <path d="M10 14 21 3" />
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    </Icon>
+  );
+}
+
+export function Eye({ size = 16 }) {
+  return (
+    <Icon size={size}>
+      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+      <circle cx="12" cy="12" r="3" />
+    </Icon>
+  );
+}
+

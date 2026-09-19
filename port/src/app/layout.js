@@ -25,21 +25,21 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: `${site.name} — ${site.role}`,
-  description: 'Software developer for founders and small teams. Applications and websites, delivered on the date we agree.',
+  title: `${site.name} | ${site.role}`,
+  description: 'Software Developer specializing in web applications, websites, solutions, and applications for founders and engineering teams.',
   icons: {
     icon: [{ url: '/icon', type: 'image/png' }],
     apple: [{ url: '/apple-icon', type: 'image/png' }],
   },
   openGraph: {
-    title: `${site.name} — ${site.role}`,
-    description: 'Software developer for founders and small teams. Available for freelance.',
+    title: `${site.name} | ${site.role}`,
+    description: 'Software Developer specializing in web applications, websites, solutions, and applications.',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${site.name} — ${site.role}`,
-    description: 'Software developer for founders and small teams. Available for freelance.',
+    title: `${site.name} | ${site.role}`,
+    description: 'Software Developer specializing in web applications, websites, solutions, and applications.',
   },
 };
 

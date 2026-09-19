@@ -45,6 +45,31 @@ html::-webkit-scrollbar {
   height: 0;
 }
 
+.modal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-green) var(--color-line);
+}
+
+.modal-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.modal-scroll::-webkit-scrollbar-track {
+  background: var(--color-line);
+  border-radius: 9999px;
+  margin-block: 8px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-green) 0%, #3dff6a 100%);
+  border-radius: 9999px;
+  box-shadow: 0 0 8px rgb(7 196 44 / 0.4);
+}
+
+.modal-scroll::-webkit-scrollbar-thumb:hover {
+  background: #3dff6a;
+}
+
 body {
   min-height: 100%;
   background: var(--color-bg);

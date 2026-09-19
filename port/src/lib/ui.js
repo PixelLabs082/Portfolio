@@ -16,9 +16,9 @@ export const sectionLead = 'max-w-[42ch] text-[18px] leading-[1.55] text-muted';
 export const sectionHead = 'mb-14 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end';
 
 export const btn =
-  'inline-flex h-12 min-h-12 items-center justify-center gap-2 rounded-[50px] px-5 text-[15px] font-medium tracking-[-0.01em] transition duration-300 ease-out sm:h-[50px] sm:px-[22px]';
+  'inline-flex h-12 min-h-12 items-center justify-center gap-2.5 rounded-[50px] px-6 text-[15px] font-semibold tracking-normal transition duration-300 ease-out sm:h-[52px] sm:px-7 sm:text-[16px]';
 
-export const btnPrimary = `${btn} bg-accent text-ink`;
+export const btnPrimary = `${btn} bg-fg text-bg shadow-[0_0_22px_rgba(255,255,255,0.2)] hover:bg-white hover:shadow-[0_0_32px_rgba(255,255,255,0.38)] hover:scale-[1.02] active:scale-[0.98]`;
 
 export const btnSecondary = `${btn} border border-line bg-transparent text-fg hover:border-fg`;
 
