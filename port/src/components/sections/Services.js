@@ -32,7 +32,7 @@ function ServiceBody({ service, index, count }) {
         </ul>
         <Magnetic className="mt-7 sm:mt-10">
           <a className={btnPrimary} href="#contact">
-            start a project
+            Start a Project
           </a>
         </Magnetic>
       </div>

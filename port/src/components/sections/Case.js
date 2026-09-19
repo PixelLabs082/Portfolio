@@ -1,5 +1,7 @@
 import { site } from '@/data/site';
-import { container, displayHeading, section } from '@/lib/ui';
+import { container, displayHeading, section, btnPrimary } from '@/lib/ui';
+import Magnetic from '@/components/fx/Magnetic';
+import { ArrowUpRight } from '@/lib/icons';
 
 function Case() {
   const study = site.caseStudy;
@@ -11,9 +13,19 @@ function Case() {
           <p className="mb-5 text-[12px] font-medium uppercase tracking-[0.16em] text-muted">Selected case</p>
           <h2 className={`${displayHeading} mb-0`}>{study.title}</h2>
           <p className="mt-5 text-muted">{study.role}</p>
-          <a className="mt-6 inline-block text-fg underline-offset-4 hover:underline" href={study.href} target="_blank" rel="noreferrer">
-            View live site
-          </a>
+          <div className="mt-8">
+            <Magnetic>
+              <a
+                className={`${btnPrimary} inline-flex items-center gap-2.5`}
+                href={study.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>Visit Live Site</span>
+                <ArrowUpRight size={18} />
+              </a>
+            </Magnetic>
+          </div>
         </div>
         <div className="grid gap-8">
           <article>

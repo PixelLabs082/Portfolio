@@ -29,14 +29,20 @@ function About() {
       </div>
 
       <div className={`${container} mb-16`}>
-        <h3 className="mb-2 text-[24px] font-medium tracking-[-0.04em]">Work Experience</h3>
+        <h3 className="mb-4 text-[24px] font-medium tracking-[-0.04em]">Work Experience</h3>
         {site.experience.map((job) => (
           <article
-            key={job.role}
-            className="grid items-baseline gap-3 border-t border-line py-6 last:border-b md:grid-cols-[1fr_auto]"
+            key={`${job.title}-${job.company}`}
+            className="flex flex-col justify-between border-t border-line py-6 last:border-b sm:flex-row sm:items-center gap-2 sm:gap-4"
           >
-            <h4 className="text-[18px] font-medium tracking-[-0.03em] wrap-break-word sm:text-[22px]">{job.role}</h4>
-            <p className="text-[0.92rem] text-muted">{job.period}</p>
+            <div>
+              <h4 className="text-[21px] font-medium tracking-[-0.03em] text-fg sm:text-[24px]">{job.title || job.role}</h4>
+              <p className="mt-1.5 text-[17px] font-medium text-fg/90 sm:text-[19px]">
+                <span>{job.company}</span>
+                {job.location && <span className="font-normal text-muted/70"> • {job.location}</span>}
+              </p>
+            </div>
+            <p className="font-mono text-[13.5px] text-muted shrink-0 sm:text-[14.5px]">{job.period}</p>
           </article>
         ))}
       </div>
@@ -48,16 +54,16 @@ function About() {
         </div>
       </div>
 
-      <div className={`${container} grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8`}>
-        {site.stats.map((stat) => (
+      <div className={`${container} grid grid-cols-1 gap-10 border-t border-line pt-10 md:grid-cols-3 md:gap-8`}>
+        {site.stats.map((stat, index) => (
           <article key={stat.kicker}>
-            <p className="mb-6 text-[0.86rem] text-muted">
-              {'//'} {stat.kicker}
+            <p className="mb-3 text-[12px] font-medium uppercase tracking-[0.16em] text-green">
+              0{index + 1} / <span className="text-muted">{stat.kicker}</span>
             </p>
-            <strong className="mb-4 block font-display text-[clamp(4rem,8vw,6.5rem)] leading-none tracking-[-0.07em]">
+            <strong className="mb-4 block font-display text-[clamp(3.8rem,7vw,5.8rem)] leading-none tracking-[-0.07em]">
               <Count value={stat.value} />
             </strong>
-            <p className="max-w-[28ch] text-muted">{stat.label}</p>
+            <p className="max-w-[32ch] text-[15px] leading-7 text-muted sm:text-[16px]">{stat.label}</p>
           </article>
         ))}
       </div>

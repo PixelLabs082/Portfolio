@@ -5,11 +5,23 @@ import Magnetic from '@/components/fx/Magnetic';
 import { site } from '@/data/site';
 import { btnPrimary, container, displayHeading, section } from '@/lib/ui';
 
+const countryCodes = [
+  { code: '+91', country: 'IN', label: '+91 (India)' },
+  { code: '+44', country: 'UK', label: '+44 (UK)' },
+  { code: '+1', country: 'US', label: '+1 (US / CA)' },
+  { code: '+61', country: 'AU', label: '+61 (Australia)' },
+  { code: '+49', country: 'DE', label: '+49 (Germany)' },
+  { code: '+33', country: 'FR', label: '+33 (France)' },
+  { code: '+971', country: 'AE', label: '+971 (UAE)' },
+  { code: '+65', country: 'SG', label: '+65 (Singapore)' },
+  { code: '+81', country: 'JP', label: '+81 (Japan)' },
+];
+
 const emptyForm = {
   name: '',
   email: '',
-  interest: site.contact.interests[0],
-  budget: site.contact.budgets[0],
+  countryCode: '+91',
+  phone: '',
   details: '',
 };
 
@@ -19,16 +31,69 @@ const inputClass =
 
 function Contact() {
   const [form, setForm] = useState(emptyForm);
+  const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('idle');
 
   const onChange = (event) => {
     const { name, value } = event.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    if (name === 'phone') {
+      // Strip any character that is not a digit (0-9)
+      const sanitized = value.replace(/[^0-9]/g, '');
+      setForm((prev) => ({ ...prev, phone: sanitized }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
+    }
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const onPhoneKeyDown = (e) => {
+    // Allow navigation, deletion, selection, and copy-paste shortcuts
+    if (
+      ['Backspace', 'Tab', 'Enter', 'Delete', 'Escape', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key) ||
+      e.ctrlKey ||
+      e.metaKey
+    ) {
+      return;
+    }
+    // Block any key that is not a digit 0-9
+    if (!/^[0-9]$/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
+  const validate = () => {
+    const newErrors = {};
+    const nameRegex = /^[a-zA-Z\s'.-]+$/;
+    if (!form.name.trim() || form.name.trim().length < 2 || !nameRegex.test(form.name.trim())) {
+      newErrors.name = 'Please enter a valid full name (letters only, min 2 characters).';
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!form.email || !emailRegex.test(form.email.trim())) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+    const phoneDigits = form.phone.trim();
+    if (!phoneDigits) {
+      newErrors.phone = 'Mobile number is required (numbers only, no letters or symbols).';
+    } else if (!/^[0-9]+$/.test(phoneDigits)) {
+      newErrors.phone = 'Only numbers are allowed. No letters or symbols.';
+    } else if (phoneDigits.length < 7 || phoneDigits.length > 15) {
+      newErrors.phone = 'Mobile number must be between 7 and 15 digits (numbers only).';
+    }
+    if (!form.details.trim() || form.details.trim().length < 20) {
+      newErrors.details = `Project details must be at least 20 characters (${form.details.trim().length}/20).`;
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const onSubmit = async (event) => {
     event.preventDefault();
+    if (!validate()) return;
     setStatus('sending');
+
+    const fullPhone = `${form.countryCode} ${form.phone.trim()}`;
 
     try {
       const response = await fetch(`https://formsubmit.co/ajax/${site.email}`, {
@@ -38,12 +103,12 @@ function Contact() {
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          interest: form.interest,
-          budget: form.budget,
-          message: form.details,
-          _subject: `Project inquiry from ${form.name}`,
+          name: form.name.trim(),
+          email: form.email.trim(),
+          phone: fullPhone,
+          message: form.details.trim(),
+          _cc: 'ashwinram28102005@gmail.com,pixellabs082@gmail.com',
+          _subject: `New Freelance Project Inquiry from ${form.name.trim()}`,
           _template: 'table',
           _captcha: 'false',
         }),
@@ -51,6 +116,7 @@ function Contact() {
 
       if (!response.ok) throw new Error('Send failed');
       setForm(emptyForm);
+      setErrors({});
       setStatus('sent');
     } catch {
       setStatus('error');
@@ -80,47 +146,101 @@ function Contact() {
           </div>
         </div>
 
-        <form className="grid grid-cols-1 gap-7 md:grid-cols-2" onSubmit={onSubmit}>
+        <form className="grid grid-cols-1 gap-7 md:grid-cols-2" onSubmit={onSubmit} noValidate>
+          {/* Name Field */}
           <label className={fieldClass}>
             Name*
-            <input className={inputClass} name="name" value={form.name} onChange={onChange} required autoComplete="name" />
+            <input
+              className={`${inputClass} ${errors.name ? 'border-red-500' : ''}`}
+              name="name"
+              value={form.name}
+              onChange={onChange}
+              required
+              autoComplete="name"
+              placeholder="Your full name"
+            />
+            {errors.name && <span className="text-[12px] normal-case text-red-400">{errors.name}</span>}
           </label>
+
+          {/* Email Field */}
           <label className={fieldClass}>
             Email*
-            <input className={inputClass} type="email" name="email" value={form.email} onChange={onChange} required autoComplete="email" />
+            <input
+              className={`${inputClass} ${errors.email ? 'border-red-500' : ''}`}
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={onChange}
+              required
+              autoComplete="email"
+              placeholder="your@email.com"
+            />
+            {errors.email && <span className="text-[12px] normal-case text-red-400">{errors.email}</span>}
           </label>
-          <label className={fieldClass}>
-            You are interested in
-            <select className={inputClass} name="interest" value={form.interest} onChange={onChange}>
-              {site.contact.interests.map((option) => (
-                <option key={option}>{option}</option>
-              ))}
-            </select>
-          </label>
-          <label className={fieldClass}>
-            Budget
-            <select className={inputClass} name="budget" value={form.budget} onChange={onChange}>
-              {site.contact.budgets.map((option) => (
-                <option key={option}>{option}</option>
-              ))}
-            </select>
-          </label>
+
+          {/* Mobile Number Field with Country Code */}
+          <div className={`${fieldClass} md:col-span-2`}>
+            <span>Mobile Number*</span>
+            <div className="flex gap-3">
+              <select
+                name="countryCode"
+                value={form.countryCode}
+                onChange={onChange}
+                className="w-36 min-h-12 border-0 border-b border-line-strong bg-transparent py-3 text-base font-mono tracking-normal text-fg outline-none transition-colors focus:border-fg"
+              >
+                {countryCodes.map((item) => (
+                  <option key={item.code} value={item.code} className="bg-bg text-fg">
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+              <input
+                className={`${inputClass} flex-1 ${errors.phone ? 'border-red-500' : ''}`}
+                type="tel"
+                name="phone"
+                value={form.phone}
+                onChange={onChange}
+                onKeyDown={onPhoneKeyDown}
+                maxLength={15}
+                required
+                inputMode="numeric"
+                pattern="[0-9]*"
+                autoComplete="tel"
+                placeholder="9876543210"
+              />
+            </div>
+            {errors.phone && <span className="text-[12px] normal-case text-red-400">{errors.phone}</span>}
+          </div>
+
+          {/* Project Details Field */}
           <label className={`${fieldClass} md:col-span-2`}>
-            Project details*
-            <textarea className={`${inputClass} min-h-24 resize-y`} name="details" rows="4" value={form.details} onChange={onChange} required />
+            Project Details*
+            <textarea
+              className={`${inputClass} min-h-28 resize-y ${errors.details ? 'border-red-500' : ''}`}
+              name="details"
+              rows="4"
+              value={form.details}
+              onChange={onChange}
+              required
+              minLength={20}
+              placeholder="Describe your project goals, scope, and timeline (at least 20 characters)..."
+            />
+            {errors.details && <span className="text-[12px] normal-case text-red-400">{errors.details}</span>}
           </label>
+
           <Magnetic className="md:col-span-2">
             <button className={btnPrimary} type="submit" disabled={status === 'sending'}>
               {status === 'sending' ? 'Sending…' : 'Submit Message'}
             </button>
           </Magnetic>
+
           {status === 'sent' && (
-            <p className="text-[0.9rem] normal-case tracking-normal text-muted md:col-span-2">
-              Message sent. If this is the first inquiry from this site, confirm the FormSubmit email once, then new messages land in the inbox.
+            <p className="text-[0.9rem] normal-case tracking-normal text-green md:col-span-2">
+              Message sent successfully! I will reply to your inquiry within 24 hours.
             </p>
           )}
           {status === 'error' && (
-            <p className="text-[0.9rem] normal-case tracking-normal text-muted md:col-span-2">
+            <p className="text-[0.9rem] normal-case tracking-normal text-red-400 md:col-span-2">
               The form could not send. Write directly to {site.email}.
             </p>
           )}
