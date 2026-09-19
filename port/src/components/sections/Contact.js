@@ -15,12 +15,14 @@ const countryCodes = [
   { code: '+971', country: 'AE', label: '+971 (UAE)' },
   { code: '+65', country: 'SG', label: '+65 (Singapore)' },
   { code: '+81', country: 'JP', label: '+81 (Japan)' },
+  { code: 'other', country: 'OTHER', label: 'Other Country' },
 ];
 
 const emptyForm = {
   name: '',
   email: '',
   countryCode: '+91',
+  otherCountryCode: '',
   phone: '',
   details: '',
 };
@@ -40,6 +42,15 @@ function Contact() {
       // Strip any character that is not a digit (0-9)
       const sanitized = value.replace(/[^0-9]/g, '');
       setForm((prev) => ({ ...prev, phone: sanitized }));
+    } else if (name === 'otherCountryCode') {
+      // Allow leading + and max 3 digits (e.g. +353)
+      let sanitized = value;
+      if (sanitized.startsWith('+')) {
+        sanitized = '+' + sanitized.slice(1).replace(/[^0-9]/g, '').slice(0, 3);
+      } else if (sanitized.length > 0) {
+        sanitized = '+' + sanitized.replace(/[^0-9]/g, '').slice(0, 3);
+      }
+      setForm((prev) => ({ ...prev, otherCountryCode: sanitized }));
     } else {
       setForm((prev) => ({ ...prev, [name]: value }));
     }
@@ -73,6 +84,16 @@ function Contact() {
     if (!form.email || !emailRegex.test(form.email.trim())) {
       newErrors.email = 'Please enter a valid email address.';
     }
+
+    if (form.countryCode === 'other') {
+      const customCode = form.otherCountryCode.trim();
+      if (!customCode || customCode === '+') {
+        newErrors.otherCountryCode = 'Please enter a country code (e.g. +353).';
+      } else if (!/^\+[0-9]{1,3}$/.test(customCode)) {
+        newErrors.otherCountryCode = 'Country code must be 1 to 3 digits starting with + (e.g. +91, +44, +353).';
+      }
+    }
+
     const phoneDigits = form.phone.trim();
     if (!phoneDigits) {
       newErrors.phone = 'Mobile number is required (numbers only, no letters or symbols).';
@@ -93,7 +114,8 @@ function Contact() {
     if (!validate()) return;
     setStatus('sending');
 
-    const fullPhone = `${form.countryCode} ${form.phone.trim()}`;
+    const selectedCode = form.countryCode === 'other' ? form.otherCountryCode.trim() : form.countryCode;
+    const fullPhone = `${selectedCode} ${form.phone.trim()}`;
 
     try {
       const response = await fetch(`https://formsubmit.co/ajax/${site.email}`, {
@@ -132,18 +154,7 @@ function Contact() {
             <br />
             {site.contact.heading[1]}
           </h2>
-          <p className="mb-6 max-w-[36ch] text-[18px] leading-7 text-muted">{site.contact.body}</p>
-          <div className="grid gap-3 text-[1.05rem]">
-            <a className="break-all text-muted transition-colors hover:text-fg" href={`mailto:${site.email}`}>
-              {site.email}
-            </a>
-            <a className="text-muted transition-colors hover:text-fg" href={site.phoneHref}>
-              {site.phone}
-            </a>
-            <a className="text-muted transition-colors hover:text-fg" href={site.whatsapp} target="_blank" rel="noreferrer">
-              WhatsApp
-            </a>
-          </div>
+          <p className="max-w-[36ch] text-[18px] leading-7 text-muted">{site.contact.body}</p>
         </div>
 
         <form className="grid grid-cols-1 gap-7 md:grid-cols-2" onSubmit={onSubmit} noValidate>
@@ -181,12 +192,12 @@ function Contact() {
           {/* Mobile Number Field with Country Code */}
           <div className={`${fieldClass} md:col-span-2`}>
             <span>Mobile Number*</span>
-            <div className="flex gap-3">
+            <div className="flex flex-wrap sm:flex-nowrap gap-3 items-end">
               <select
                 name="countryCode"
                 value={form.countryCode}
                 onChange={onChange}
-                className="w-36 min-h-12 border-0 border-b border-line-strong bg-transparent py-3 text-base font-mono tracking-normal text-fg outline-none transition-colors focus:border-fg"
+                className="w-28 sm:w-36 min-h-12 border-0 border-b border-line-strong bg-transparent py-3 text-[14px] sm:text-base font-mono tracking-normal text-fg outline-none transition-colors focus:border-fg shrink-0"
               >
                 {countryCodes.map((item) => (
                   <option key={item.code} value={item.code} className="bg-bg text-fg">
@@ -194,8 +205,23 @@ function Contact() {
                   </option>
                 ))}
               </select>
+
+              {form.countryCode === 'other' && (
+                <div className="w-28 sm:w-32 flex flex-col shrink-0">
+                  <input
+                    className={`${inputClass} font-mono ${errors.otherCountryCode ? 'border-red-500' : ''}`}
+                    name="otherCountryCode"
+                    value={form.otherCountryCode}
+                    onChange={onChange}
+                    placeholder="+353"
+                    maxLength={4}
+                    required
+                  />
+                </div>
+              )}
+
               <input
-                className={`${inputClass} flex-1 ${errors.phone ? 'border-red-500' : ''}`}
+                className={`${inputClass} flex-1 min-w-[150px] ${errors.phone ? 'border-red-500' : ''}`}
                 type="tel"
                 name="phone"
                 value={form.phone}
@@ -209,6 +235,9 @@ function Contact() {
                 placeholder="9876543210"
               />
             </div>
+            {errors.otherCountryCode && (
+              <span className="text-[12px] normal-case text-red-400">{errors.otherCountryCode}</span>
+            )}
             {errors.phone && <span className="text-[12px] normal-case text-red-400">{errors.phone}</span>}
           </div>
 
@@ -228,8 +257,8 @@ function Contact() {
             {errors.details && <span className="text-[12px] normal-case text-red-400">{errors.details}</span>}
           </label>
 
-          <Magnetic className="md:col-span-2">
-            <button className={btnPrimary} type="submit" disabled={status === 'sending'}>
+          <Magnetic className="w-full md:w-auto md:col-span-2">
+            <button className={`${btnPrimary} w-full md:w-auto`} type="submit" disabled={status === 'sending'}>
               {status === 'sending' ? 'Sending…' : 'Submit Message'}
             </button>
           </Magnetic>

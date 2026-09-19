@@ -76,8 +76,7 @@ body {
   color: var(--color-fg);
   cursor: default;
   overflow-x: clip;
-  letter-spacing: 0.012em;
-  word-spacing: 0.32em;
+  letter-spacing: 0.01em;
 }
 
 h1,
@@ -85,20 +84,20 @@ h2,
 h3,
 h4,
 .brand-mark {
-  word-spacing: 0.28em;
+  letter-spacing: -0.02em;
 }
 
 .page-wrap {
   box-sizing: border-box;
   container-type: inline-size;
-  padding-right: max(1.75rem, env(safe-area-inset-right));
-  padding-left: max(1.75rem, env(safe-area-inset-left));
+  padding-right: max(1.125rem, env(safe-area-inset-right));
+  padding-left: max(1.125rem, env(safe-area-inset-left));
 }
 
 @media (min-width: 640px) {
   .page-wrap {
-    padding-right: max(2.25rem, env(safe-area-inset-right));
-    padding-left: max(2.25rem, env(safe-area-inset-left));
+    padding-right: max(2rem, env(safe-area-inset-right));
+    padding-left: max(2rem, env(safe-area-inset-left));
   }
 }
 
@@ -299,6 +298,8 @@ html[data-cursor='on'] .site-cursor {
 .marquee-track {
   display: flex;
   width: max-content;
+  will-change: transform;
+  transform: translateZ(0);
   animation: marquee 22s linear infinite;
 }
 

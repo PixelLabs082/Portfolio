@@ -15,12 +15,12 @@ export const site = {
     { name: 'Contact', href: '#contact' },
   ],
   socials: [
-    { name: 'GitHub', href: 'https://github.com/SANDY655' },
     { name: 'LinkedIn', href: 'https://www.linkedin.com/in/santhosh-pandiyan-k-42b771290/' },
     { name: 'Instagram', href: 'https://www.instagram.com/santhoshkannan06' },
     { name: 'WhatsApp', href: 'https://wa.me/919943147838' },
     { name: 'Phone', href: 'tel:+919943147838' },
     { name: 'Email', href: 'mailto:santhoshkannan525@gmail.com' },
+    { name: 'GitHub', href: 'https://github.com/SANDY655' },
   ],
   hero: {
     eyebrow: 'Available for Work',
@@ -205,10 +205,10 @@ export const site = {
   caseStudy: {
     title: 'Cafy Careers Ecosystem',
     href: 'https://cafy.careers/',
-    role: 'Software Developer',
-    problem: 'Cafy required live web applications for UK students to search jobs, roast resumes, and manage application pipelines.',
-    work: 'I worked alongside their core dev team to build responsive frontend interfaces, AI feedback tools, and interactive dashboards across their live domain suite.',
-    result: 'All 4 web applications are live in production at cafy.careers, roast.cafy.careers, resume.cafy.careers, and app.cafy.careers.',
+    role: 'Software Developer (Team Project)',
+    problem: 'Cafy needed an end-to-end web platform and Chrome Extension suite to help international graduates in the UK & Ireland find visa-sponsored jobs, optimize resumes against job descriptions, roast resumes with AI, and track applications.',
+    work: 'Engineered responsive web applications, Chrome Extension DOM scrapers for LinkedIn/Indeed, AI match engines powered by Gemini AI and GPT-4, Supabase endpoints, Cal.com counseling bookings, and application tracking dashboards.',
+    result: 'Successfully launched 5 production web tools & browser extensions at cafy.careers, app.cafy.careers, resume.cafy.careers, roast.cafy.careers, and the official Chrome Web Store for active job seekers.',
   },
   services: [
     {
@@ -233,18 +233,18 @@ export const site = {
   process: [
     {
       number: '01',
-      title: 'Define scope & architectural plan',
-      body: 'We clarify project goals, technical requirements, and deliverable milestones upfront before writing a single line of code.',
+      title: 'Discovery & Planning',
+      body: 'We map out your project goals, technical requirements, and timeline upfront with a clear fixed scope and no hidden costs.',
     },
     {
       number: '02',
-      title: 'Build in the open with live previews',
-      body: 'You test live staging previews throughout development. Progress stays transparent with regular updates until deadline completion.',
+      title: 'Development & Previews',
+      body: 'I build your product in transparent iterations with live preview links, allowing you to test features and share feedback in real time.',
     },
     {
       number: '03',
-      title: 'Deploy, optimize & complete handoff',
-      body: 'Production launch, performance smoke-testing, and complete source code transfer with documentation and optional post-launch support.',
+      title: 'Launch & Handoff',
+      body: 'We test performance, deploy your site to production, and hand over 100% full source code ownership and setup documentation.',
     },
   ],
   about: {
