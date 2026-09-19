@@ -16,12 +16,12 @@ function FAQ() {
         <div>
           {site.faq.map((item, index) => (
             <details key={item.question} className="faq-item border-t border-line last:border-b" open={index === 0}>
-              <summary className="flex cursor-pointer list-none items-start gap-5 py-6 text-[1.08rem] tracking-[-0.02em] text-fg transition-colors hover:text-muted [&::-webkit-details-marker]:hidden">
-                <span className="mt-1 min-w-[2rem] text-[0.78rem] text-muted">0{index + 1}</span>
-                <span className="flex-1 text-[22px] font-medium tracking-[-0.03em]">{item.question}</span>
+              <summary className="flex cursor-pointer list-none items-start gap-3 py-5 text-[1.08rem] tracking-[-0.02em] text-fg transition-colors hover:text-muted sm:gap-5 sm:py-6 [&::-webkit-details-marker]:hidden">
+                <span className="mt-1 min-w-[1.6rem] text-[0.78rem] text-muted sm:min-w-8">0{index + 1}</span>
+                <span className="flex-1 text-[18px] font-medium tracking-[-0.03em] sm:text-[22px]">{item.question}</span>
                 <span className="faq-mark mt-1.5 text-muted" aria-hidden="true" />
               </summary>
-              <p className="max-w-[54ch] pb-6 pl-[3.25rem] leading-relaxed text-muted">{item.answer}</p>
+              <p className="max-w-[54ch] pb-6 pl-8 leading-relaxed text-muted sm:pl-13">{item.answer}</p>
             </details>
           ))}
         </div>

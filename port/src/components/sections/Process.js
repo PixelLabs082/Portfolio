@@ -14,7 +14,7 @@ function Process() {
           {site.process.map((step) => (
             <article
               key={step.number}
-              className="flex min-h-[22rem] flex-col justify-between rounded-[40px] border border-line bg-card p-8 md:p-10"
+              className="flex min-h-[18rem] flex-col justify-between rounded-[28px] border border-line bg-card p-6 sm:min-h-88 sm:rounded-[40px] sm:p-8 md:p-10"
             >
               <h3 className="max-w-[14ch] text-[clamp(1.6rem,3vw,2.2rem)] leading-[1.1] font-medium tracking-[-0.04em]">
                 {step.title}
