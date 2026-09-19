@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { site } from '@/data/site';
 import { ArrowUpRight, ExternalLink } from '@/lib/icons';
@@ -10,6 +10,14 @@ import Magnetic from '@/components/fx/Magnetic';
 
 function Work() {
   const [activeFilter, setActiveFilter] = useState('all');
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkIsDesktop = () => setIsDesktop(window.innerWidth >= 1024);
+    checkIsDesktop();
+    window.addEventListener('resize', checkIsDesktop);
+    return () => window.removeEventListener('resize', checkIsDesktop);
+  }, []);
 
   const filteredProjects = site.projects.filter((project) => {
     if (activeFilter === 'live') return project.status === 'live';
@@ -32,16 +40,16 @@ function Work() {
 
       <div className="mx-auto w-full max-w-[88rem] px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14">
         {/* Section Header - Clean styling matching About Me */}
-        <div className="mb-8 sm:mb-10">
+        <div className="mb-6 sm:mb-10">
           <h2 className={`${displayHeading} mb-0`}>Works</h2>
         </div>
 
         {/* Category Filter Tabs Bar */}
-        <div className="flex flex-wrap items-center gap-3 border-b border-line pb-5">
+        <div className="flex items-center gap-2.5 overflow-x-auto pb-4 no-scrollbar sm:flex-wrap sm:gap-3 sm:pb-5">
           <button
             type="button"
             onClick={() => setActiveFilter('all')}
-            className={`rounded-full px-5 py-2 text-[13px] font-medium tracking-wide transition-all duration-300 sm:text-[14px] ${
+            className={`shrink-0 rounded-full px-4 py-2 text-[12.5px] font-medium tracking-wide transition-all duration-300 sm:px-5 sm:text-[14px] ${
               activeFilter === 'all'
                 ? 'bg-fg text-bg shadow-md'
                 : 'border border-line text-muted hover:border-fg/40 hover:text-fg'
@@ -52,7 +60,7 @@ function Work() {
           <button
             type="button"
             onClick={() => setActiveFilter('live')}
-            className={`flex items-center gap-2 rounded-full px-5 py-2 text-[13px] font-medium tracking-wide transition-all duration-300 sm:text-[14px] ${
+            className={`flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-[12.5px] font-medium tracking-wide transition-all duration-300 sm:px-5 sm:text-[14px] ${
               activeFilter === 'live'
                 ? 'bg-fg text-bg shadow-md'
                 : 'border border-line text-muted hover:border-fg/40 hover:text-fg'
@@ -64,7 +72,7 @@ function Work() {
           <button
             type="button"
             onClick={() => setActiveFilter('in-progress')}
-            className={`flex items-center gap-2 rounded-full px-5 py-2 text-[13px] font-medium tracking-wide transition-all duration-300 sm:text-[14px] ${
+            className={`flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-[12.5px] font-medium tracking-wide transition-all duration-300 sm:px-5 sm:text-[14px] ${
               activeFilter === 'in-progress'
                 ? 'bg-fg text-bg shadow-md'
                 : 'border border-line text-muted hover:border-fg/40 hover:text-fg'
@@ -75,29 +83,34 @@ function Work() {
           </button>
         </div>
 
-        {/* Vertical Overlapping Sticky Cards Stack (High Performance Smooth Stack) */}
-        <div className="relative mt-8 pb-12">
+        {/* Project Cards Section (Responsive List on Mobile, Sticky Stack on Desktop) */}
+        <div className="relative mt-6 sm:mt-8 pb-12 sm:pb-20">
           <AnimatePresence>
             {filteredProjects.map((project, index) => {
               const formattedIndex = String(index + 1).padStart(2, '0');
               const totalCount = String(filteredProjects.length).padStart(2, '0');
               const isLive = project.status === 'live';
 
-              // Sticky offset for smooth stack
-              const topOffset = 76 + index * 16;
+              // Sticky offset for desktop stack
+              const topOffset = 72 + index * 14;
 
               return (
                 <motion.article
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ duration: 0.25, ease: 'easeOut' }}
                   key={project.id || project.title}
-                  style={{
-                    top: `${topOffset}px`,
-                    zIndex: index + 1,
-                  }}
-                  className="sticky mb-8 group overflow-hidden rounded-[24px] border border-line/90 bg-[#0e0e0e] p-6 shadow-[0_-12px_40px_rgba(0,0,0,0.88)] transition-colors duration-300 hover:border-fg/40 sm:rounded-[30px] sm:p-7 lg:p-8"
+                  style={
+                    isDesktop
+                      ? { top: `${topOffset}px`, zIndex: index + 1 }
+                      : { zIndex: index + 1 }
+                  }
+                  className={`mb-6 sm:mb-8 group overflow-hidden rounded-[20px] sm:rounded-[28px] border border-line/90 bg-[#0e0e0e] p-4.5 sm:p-7 lg:p-8 transition-colors duration-300 hover:border-fg/40 transform-gpu ${
+                    isDesktop
+                      ? 'sticky shadow-[0_-12px_40px_rgba(0,0,0,0.88)] will-change-[transform,top]'
+                      : 'relative shadow-lg'
+                  }`}
                 >
                   <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-center lg:gap-10">
                     {/* Left Info Column (5 Cols) */}
@@ -178,7 +191,7 @@ function Work() {
 
                     {/* Right Image Showcase Column (7 Cols) */}
                     <div className="lg:col-span-7">
-                      <div className="relative overflow-hidden rounded-2xl border border-line/80 bg-neutral-900 shadow-xl transition-all duration-300 group-hover:border-fg/40">
+                      <div className="relative overflow-hidden rounded-2xl border border-line/80 bg-neutral-900 shadow-xl transition-colors duration-300 group-hover:border-fg/40 transform-gpu">
                         {/* Browser Top Bar */}
                         <div className="flex items-center justify-between border-b border-line/60 bg-neutral-950/90 px-4 py-2.5 backdrop-blur-sm">
                           <div className="flex items-center gap-2">
@@ -197,15 +210,15 @@ function Work() {
                           <img
                             src={project.image}
                             alt={project.title}
-                            className="h-full w-full object-cover object-top transition-transform duration-700 group-hover/img:scale-105"
+                            className="h-full w-full object-cover object-top transition-transform duration-500 ease-out group-hover/img:scale-105 transform-gpu"
                           />
                           <a
                             href={project.href}
                             target="_blank"
                             rel="noreferrer"
-                            className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover/img:opacity-100"
+                            className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover/img:opacity-100 transform-gpu"
                           >
-                            <span className="group/launch flex items-center gap-2 rounded-full border border-white/30 bg-black/80 px-6 py-3 text-[14px] font-semibold text-white shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-white hover:bg-black sm:text-[15px]">
+                            <span className="group/launch flex items-center gap-2 rounded-full border border-white/30 bg-black/80 px-6 py-3 text-[14px] font-semibold text-white shadow-2xl backdrop-blur-md transition-[border-color,background-color] duration-300 hover:border-white hover:bg-black sm:text-[15px]">
                               <span className="h-2 w-2 rounded-full bg-green pulse-dot"></span>
                               <span>Visit Live Site</span>
                               <ExternalLink size={17} className="transition-transform duration-300 group-hover/launch:translate-x-0.5 group-hover/launch:-translate-y-0.5" />

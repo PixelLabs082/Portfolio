@@ -4,8 +4,8 @@ import { container } from '@/lib/ui';
 
 function Footer() {
   return (
-    <footer className="relative z-1 border-t border-line py-12 sm:py-16">
-      <div className={`${container} grid grid-cols-2 gap-8 sm:gap-10 md:grid-cols-4`}>
+    <footer className="relative z-1 border-t border-line py-10 sm:py-16">
+      <div className={`${container} grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4 sm:gap-10`}>
         <div>
           <p className="mb-3 text-[0.72rem] uppercase tracking-[0.16em] text-fg">{site.location}</p>
           <p className="brand-mark text-[22px] font-medium tracking-tight">
@@ -33,7 +33,7 @@ function Footer() {
             ))}
           </div>
         </div>
-        <div className="col-span-2 md:col-span-1 md:text-right">
+        <div className="md:text-right">
           <p className="mb-3 text-muted">© {site.name.split(' ')[0]}'s personal portfolio</p>
           <a href="#home" className="text-muted transition-colors hover:text-fg">
             Back to Home

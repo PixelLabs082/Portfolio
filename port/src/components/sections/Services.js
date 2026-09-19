@@ -25,7 +25,7 @@ function ServiceBody({ service, index, count }) {
         <ul className="mt-6 flex list-none flex-col gap-2 p-0 text-[14px] text-muted sm:mt-8 sm:gap-2.5 sm:text-[16px]">
           {service.items.map((item) => (
             <li key={item} className="flex gap-3">
-              <span>{'//'}</span>
+              <span className="text-green font-mono">{'//'}</span>
               <span>{item}</span>
             </li>
           ))}
@@ -48,7 +48,7 @@ function ServiceSlide({ service, index, count, progress }) {
   );
 
   return (
-    <motion.article className="absolute inset-0 will-change-transform" style={{ x, zIndex: index + 1 }}>
+    <motion.article className="absolute inset-0 transform-gpu will-change-transform" style={{ x, zIndex: index + 1 }}>
       <ServiceBody service={service} index={index} count={count} />
     </motion.article>
   );
@@ -63,9 +63,9 @@ function Services() {
   });
 
   return (
-    <section id="services" className="relative z-1">
+    <section id="services" className="relative z-1 pt-10 sm:pt-16">
       <div ref={ref} className="relative" style={{ height: `${count * 100}svh` }}>
-        <div className="service-hscroll sticky top-0 h-svh overflow-hidden">
+        <div className="service-hscroll sticky top-0 h-svh overflow-hidden transform-gpu">
           {site.services.map((service, index) => (
             <ServiceSlide
               key={service.number}
